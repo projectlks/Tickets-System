@@ -1,19 +1,23 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
 import Login from "../pages/Login";
 import TicketsAssigment from "../pages/TicketsAssigment"; // Import the new component
-import TicketsAssignmentForm from "../pages/TicketsAssigmentForm";
-import CreateTicketForm from "../pages/CreateTicketForm";
+
 import TasksList from "../pages/TasksList";
 import TicketsDetail from "../pages/TicketsDetial";
 import AccountsTable from "../pages/AccountsTable";
 import CustomerTable from "../pages/CustomerTable";
+import Dashboard from "../pages/Dashboard";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Login />,
     index: true, // Set the default route
+  },
+  {
+    path: "/admin-dashboard",
+    element: <Dashboard />,
+  
   },
   {
     path: "/login",
@@ -23,14 +27,14 @@ const router = createBrowserRouter([
     path: "/tickets-assignment",
     element: <TicketsAssigment />, // Add the new route
   },
-  {
-    path: "/tickets-assignment-form",
-    element: <TicketsAssignmentForm />, // Add the new route
-  },
-  {
-    path: "/create-tickets-form",
-    element: <CreateTicketForm />, // Add the new route
-  },
+  // {
+  //   path: "/tickets-assignment-form",
+  //   element: <TicketsAssignmentForm />, // Add the new route
+  // },
+  // {
+  //   path: "/create-tickets-form",
+  //   element: <CreateTicketForm />, // Add the new route
+  // },
   
   {
     path: "/tasks-list",

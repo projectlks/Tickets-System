@@ -1,14 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import useRow from "../hooks/useRow";
 
 export default function Login() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const { userRow } = useRow();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/");
+
+    if (userRow === "customer") {
+      return navigate("/customer-table");
+    } else if (userRow === "developer") {
+      return navigate("/tasks-list");
+    } else {
+      return navigate("/admin-dashboard");
+    }
   };
 
   return (

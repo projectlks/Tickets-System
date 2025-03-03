@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router-dom";
 import BackBtn from "../components/BackBtn";
-import PriorityIcon from "../components/PriorityIocn"; // Adjust the import path as needed
-import StatusIcon from "../components/StatusIcon"; // Adjust the import path as needed
-
+import PriorityIcon from "../components/PriorityIocn";
+import StatusIcon from "../components/StatusIcon";
+import { useState } from "react";
+import CreateTicketForm from "./CreateTicketForm";
 const tickets = [
   {
     id: 1,
@@ -31,19 +31,38 @@ const employees = [
   { id: 2, name: "Bob Brown" },
 ];
 
-
 export default function CustomerTable() {
 
-    
-const navigate = useNavigate()
+  const [isOpen, setIsOpen] = useState(false);
+  const [data, setData] = useState(tickets)
   return (
     <>
       <section className="p-16 ">
         <BackBtn />
 
         <div className="flex justify-end p-3">
-          <button onClick={()=>navigate('/create-tickets-form')}  className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition duration-300 cursor-pointer">
-            Create Tickets
+          <button
+            // onClick={() => navigate("/create-tickets-form")}
+            onClick={() => setIsOpen(true)}
+            className="cursor-pointer flex h-fit  space-x-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded-md"
+          >
+            <i>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+            </i>
+            <p> Create Tickets</p>
           </button>
         </div>
 
@@ -69,7 +88,7 @@ const navigate = useNavigate()
 
           {tickets.length > 0 ? (
             <tbody className="divide-y divide-gray-200">
-              {tickets.map((ticket) => {
+              {data.map((ticket) => {
                 return (
                   <tr key={ticket.id} className="hover:bg-gray-100 transition">
                     <td className="py-4 px-5 text-[14px]">{ticket.id}</td>
@@ -121,6 +140,8 @@ const navigate = useNavigate()
           )}
         </table>
       </section>
+
+      {isOpen && <CreateTicketForm setIsOpen={setIsOpen} setData={setData} />}
     </>
   );
 }

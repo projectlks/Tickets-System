@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
+
+
 export default function SideBar({ isShow }) {
   const navigate = useNavigate();
 
@@ -12,6 +14,8 @@ export default function SideBar({ isShow }) {
             isShow ? "left-0" : "-left-full"
           } flex transition-all fixed top-0  flex-col justify-between h-screen p-6 bg-white shadow-md `}
         >
+        
+
           <div>
             {/* dashboard */}
             <span className="flex gap-2.5 items-center cursor-pointer p-4 bg-[#F9FAFB] h-[40px] mb-2 rounded-md">
@@ -63,7 +67,7 @@ export default function SideBar({ isShow }) {
             </span>
 
             {/* {create ticket} */}
-            <span
+            {/* <span
               onClick={() => navigate("/create-tickets-form")}
               className="flex group gap-2.5 items-center cursor-pointer p-4 hover:bg-[#F9FAFB] mb-2  bg-[#FFF] h-[40px] rounded-md"
             >
@@ -86,10 +90,10 @@ export default function SideBar({ isShow }) {
               <p className="text-[14px] group-hover:text-indigo-600 font-semibold">
                 Create Tickets
               </p>
-            </span>
+            </span> */}
 
             {/* {assign to me} */}
-            <span
+            {/* <span
               onClick={() => navigate("/tasks-list")}
               className="flex group gap-2.5 items-center cursor-pointer p-4 hover:bg-[#F9FAFB] mb-2  bg-[#FFF] h-[40px] rounded-md"
             >
@@ -112,7 +116,7 @@ export default function SideBar({ isShow }) {
               <p className="text-[14px] group-hover:text-indigo-600 font-semibold">
                 Assign
               </p>
-            </span>
+            </span> */}
 
             {/* {create account} */}
             <span

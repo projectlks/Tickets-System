@@ -45,16 +45,32 @@ export default function AccountsTable() {
       <BackBtn />
       <div className="p-10">
         <div className="flex justify-between mb-3">
-          <h2 className="text-xl font-semibold mb-4">Accounts Table</h2>
+          <h2 className="text-4xl font-bold mb-6 text-gray-800">Accounts</h2>
 
           <button
             onClick={() => {
               setEditAccount(null); // Reset editAccount for adding a new account
               setIsShow(true);
             }}
-            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="cursor-pointer flex h-fit  space-x-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded-md"
           >
-            Add Account
+            <i>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+            </i>
+            <p>Add Account</p>
           </button>
         </div>
         <table className="w-full border border-gray-300 rounded-lg overflow-hidden shadow-md">

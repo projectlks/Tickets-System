@@ -102,7 +102,7 @@ const Dashboard = () => {
         <div className="border rounded-xl">
           <div className="flex justify-between p-5">
             <h3 className="font-bold">Recent</h3>
-            <button onClick={() => navigate("/tickets-assignment")}>
+            <button className="hover:text-indigo-600 cursor-pointer font-semibold " onClick={() => navigate("/tickets-assignment")}>
               View All
             </button>
           </div>

@@ -1,14 +1,17 @@
 import { useState } from "react";
 import BackBtn from "../components/BackBtn";
+import PropTypes from "prop-types";
 
-export default function CreateTicketForm() {
+export default function CreateTicketForm({ setIsOpen, setData }) {
   const initialState = {
-    user_id: "123456",
-    status_id: "open",
+    id: "",
     title: "",
     description: "",
     priority: "Medium",
+    status: "Open",
     category: "",
+    assignedTo: 2,
+    startDate: "2023-10-01",
     images: [],
   };
 
@@ -40,12 +43,15 @@ export default function CreateTicketForm() {
     console.log("Form submitted:", formData);
     setFormData(initialState);
     setImagePreviews([]);
+    setIsOpen(false);
+
+    setData((prev) => [formData, ...prev]);
   };
 
   return (
-    <>
+    <section className="fixed top-0 left-0  w-full h-screen flex justify-center items-center">
       <BackBtn />
-      <div className="max-w-2xl mx-auto bg-white my-10 border rounded-lg p-6 shadow-lg">
+      <div className="max-w-2xl   bg-white  border rounded-lg p-6 shadow-lg  z-20">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Create Ticket
         </h1>
@@ -134,7 +140,6 @@ export default function CreateTicketForm() {
             />
           </div>
 
-
           {/* Image Upload */}
           <div className="relative">
             <label
@@ -206,6 +211,16 @@ export default function CreateTicketForm() {
           </div>
         </form>
       </div>
-    </>
+
+      <span
+        onClick={() => setIsOpen(false)}
+        className="w-full h-full bg-black opacity-50 absolute top-0 left-0  z-10 "
+      ></span>
+    </section>
   );
 }
+
+CreateTicketForm.propTypes = {
+  setIsOpen: PropTypes.func.isRequired,
+  setData: PropTypes.func.isRequired,
+};

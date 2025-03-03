@@ -14,7 +14,7 @@ export default function CreateAccountForm({
     name: "",
     email: "",
     password: "",
-    role: "",
+    role: "customer",
   });
 
   // Populate form data if in edit mode

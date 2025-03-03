@@ -24,8 +24,8 @@ export default function TicketsDetail() {
   return (
     <>
       <BackBtn />
-      <div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-4xl p-6">
+      <div className="min-h-screen bg-gray-100 p-10 flex items-center justify-center">
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-4xl p-10">
           <h1 className="text-4xl font-semibold text-indigo-700 text-center mb-8">
             Ticket Details
           </h1>
@@ -46,7 +46,7 @@ export default function TicketsDetail() {
           </div>
 
           {/* Ticket Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-8">
             <div className="space-y-6">
               <div className="flex items-center space-x-3">
                 <div>
@@ -66,6 +66,14 @@ export default function TicketsDetail() {
                 <div>
                   <strong className="text-gray-600">Category:</strong>
                   <p className="text-gray-700">{ticket.category_id}</p>
+                </div>
+              </div>
+
+
+              <div className="flex items-center space-x-3">
+                <div>
+                  <strong className="text-gray-600">Tags:</strong>
+                  <p className="text-gray-700">{ticket.tag}</p>
                 </div>
               </div>
             </div>
@@ -92,12 +100,7 @@ export default function TicketsDetail() {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-3">
-                <div>
-                  <strong className="text-gray-600">Tags:</strong>
-                  <p className="text-gray-700">{ticket.tag}</p>
-                </div>
-              </div>
+             
             </div>
           </div>
 
@@ -124,9 +127,6 @@ export default function TicketsDetail() {
               {new Date(ticket.due_date).toLocaleDateString()}
             </p>
           </div>
-
-        
-
 
           {/* Image Section */}
           <div className="mt-8 flex justify-center">
