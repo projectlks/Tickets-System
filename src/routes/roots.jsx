@@ -7,6 +7,7 @@ import CreateTicketForm from "../pages/CreateTicketForm";
 import TasksList from "../pages/TasksList";
 import TicketsDetail from "../pages/TicketsDetial";
 import AccountsTable from "../pages/AccountsTable";
+import CustomerTable from "../pages/CustomerTable";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,11 @@ const router = createBrowserRouter([
   {
     path: "/accounts-table",
     element: <AccountsTable />, // Add the new route
+
+  },
+  {
+    path: "/customer-table",
+    element: <CustomerTable />, // Add the new route
 
   },
   {

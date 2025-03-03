@@ -45,7 +45,6 @@ const Dashboard = () => {
         backgroundColor: "rgba(34, 197, 94, 0.5)", // bg-green-500 equivalent
       },
     ],
-    
   };
   const options = {
     responsive: true,
