@@ -4,9 +4,9 @@ import Login from "../pages/Login";
 import TicketsAssigment from "../pages/TicketsAssigment"; // Import the new component
 import TicketsAssignmentForm from "../pages/TicketsAssigmentForm";
 import CreateTicketForm from "../pages/CreateTicketForm";
-import CreateAccountForm from "../pages/CreateAccountForm";
 import TasksList from "../pages/TasksList";
 import TicketsDetail from "../pages/TicketsDetial";
+import AccountsTable from "../pages/AccountsTable";
 
 const router = createBrowserRouter([
   {
@@ -30,10 +30,7 @@ const router = createBrowserRouter([
     path: "/create-tickets-form",
     element: <CreateTicketForm />, // Add the new route
   },
-  {
-    path: "/create-account-form",
-    element: <CreateAccountForm />, // Add the new route
-  },
+  
   {
     path: "/tasks-list",
     element: <TasksList />, // Add the new route
@@ -41,6 +38,11 @@ const router = createBrowserRouter([
   {
     path: "/tickets-detial",
     element: <TicketsDetail />, // Add the new route
+  },
+  {
+    path: "/accounts-table",
+    element: <AccountsTable />, // Add the new route
+
   },
   {
     path: "*",

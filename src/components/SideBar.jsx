@@ -1,14 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
-
-export default function SideBar({isShow}) {
+export default function SideBar({ isShow }) {
   const navigate = useNavigate();
 
   return (
     <>
       <section className={`w-[250px] lg:static absolute top-0 left-0 h-screen`}>
-        <div className={`  w-[250px] z-50 ${isShow ? 'left-0' : "-left-full"} flex transition-all fixed top-0  flex-col justify-between h-screen p-6 bg-white shadow-md `}>
+        <div
+          className={`  w-[250px] z-50 ${
+            isShow ? "left-0" : "-left-full"
+          } flex transition-all fixed top-0  flex-col justify-between h-screen p-6 bg-white shadow-md `}
+        >
           <div>
             {/* dashboard */}
             <span className="flex gap-2.5 items-center cursor-pointer p-4 bg-[#F9FAFB] h-[40px] mb-2 rounded-md">
@@ -107,13 +110,13 @@ export default function SideBar({isShow}) {
                 </svg>
               </i>
               <p className="text-[14px] group-hover:text-indigo-600 font-semibold">
-                Assign to me
+                Assign
               </p>
             </span>
 
             {/* {create account} */}
             <span
-              onClick={() => navigate("/create-account-form")}
+              onClick={() => navigate("/accounts-table")}
               className="flex group gap-2.5 items-center cursor-pointer p-4 hover:bg-[#F9FAFB] mb-2  bg-[#FFF] h-[40px] rounded-md"
             >
               <i className="group-hover:text-indigo-600 mr-2">
@@ -133,7 +136,7 @@ export default function SideBar({isShow}) {
                 </svg>
               </i>
               <p className="text-[14px] group-hover:text-indigo-600 font-semibold">
-                Create Account
+                All account
               </p>
             </span>
           </div>
@@ -164,7 +167,6 @@ export default function SideBar({isShow}) {
   );
 }
 
-
 SideBar.propTypes = {
-  isShow: PropTypes.bool.isRequired
+  isShow: PropTypes.bool.isRequired,
 };

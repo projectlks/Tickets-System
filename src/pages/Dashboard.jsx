@@ -26,24 +26,33 @@ import SideBar from "../components/SideBar";
 export default function Dashboard() {
   const [isShow, setIsShow] = useState(true);
   const data = {
-    labels: [
-      "All ",
-      "Pending ",
-      "Resolved ",
-      "Open ",
-      "Closed ",
-    ],
+    labels: ["All", "Pending", "Resolved", "Open", "Closed"],
     datasets: [
       {
-        label: "",
-        data: [1201, 300, 900, 500, 700],
+        label: "High",
+        data: [350, 80, 200, 50, 20],
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
       },
+      {
+        label: "Medium",
+        data: [600, 150, 350, 70, 30],
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        borderColor: "rgba(255, 99, 132, 1)",
+        borderWidth: 1,
+      },
+      {
+        label: "Low",
+        data: [900, 100, 700, 80, 20],
+        backgroundColor: "rgba(54, 162, 235, 0.2)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 1,
+      },
     ],
   };
-
+  
+  
   const options = {
     responsive: true,
     plugins: {
@@ -56,6 +65,7 @@ export default function Dashboard() {
       },
     },
   };
+  
 
   const navigate = useNavigate();
 
@@ -102,55 +112,53 @@ export default function Dashboard() {
         </i>
 
         <div className="h-full w-full lg:w-[calc(100%-250px)]">
-          <div className="h-fit w-full bg-[#F3F4F6] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-6">
+          <div className="h-fit w-full bg-[#F3F4F6] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 p-6">
+
+            {/* all tickets */}
             <span className="rounded-xl  h-[100px] border border-gray-400 py-3 flex flex-col justify-between px-6">
-              <h3 className="text-md text-gray-700 font-semibold ">
-                All 
-              </h3>
+              <h3 className="text-md text-gray-700 font-semibold ">All</h3>
               <h1 className="text-2xl text-gray-900 font-bold ">1,200</h1>
             </span>
+
+            {/* pending tickets */}
             <span className="rounded-xl  h-[100px] border border-gray-400 py-3 flex flex-col justify-between px-6">
-              <h3 className="text-md text-gray-700 font-semibold ">
-                Pending 
-              </h3>
+              <h3 className="text-md text-gray-700 font-semibold ">Pending</h3>
               <h1 className="text-2xl text-gray-900 font-bold ">300</h1>
             </span>
+
+            {/* resolved tickets */}
             <span className="rounded-xl  h-[100px] border border-gray-400 py-3 flex flex-col justify-between px-6">
-              <h3 className="text-md text-gray-700 font-semibold ">
-                Resolved 
-              </h3>
+              <h3 className="text-md text-gray-700 font-semibold ">Resolved</h3>
               <h1 className="text-2xl text-gray-900 font-bold ">900</h1>
             </span>
+
+            {/* open tickets */}
             <span className="rounded-xl  h-[100px] border border-gray-400 py-3 flex flex-col justify-between px-6">
-              <h3 className="text-md text-gray-700 font-semibold ">
-                Open 
-              </h3>
+              <h3 className="text-md text-gray-700 font-semibold ">Open</h3>
               <h1 className="text-2xl text-gray-900 font-bold ">500</h1>
             </span>
+
+            {/* closed tickets */}
             <span className="rounded-xl  h-[100px] border border-gray-400 py-3 flex flex-col justify-between px-6">
-              <h3 className="text-md text-gray-700 font-semibold ">
-                Closed 
-              </h3>
+              <h3 className="text-md text-gray-700 font-semibold ">Closed</h3>
               <h1 className="text-2xl text-gray-900 font-bold ">700</h1>
             </span>
           </div>
 
           {/* testing chart */}
 
-          <div className="w-full flex flex-col md:flex-row gap-5 p-6">
-            <div className="w-full md:w-1/2">
-              <div className="relative w-full md:h-full">
-                <Bar data={data} options={options} />
-              </div>
+          <div className="w-full   gap-5 p-6">
+            <div className="relative w-[90%] mx-auto mb-10">
+              <Bar data={data} options={options} />
             </div>
 
-            <div className="w-full  md:w-1/2 border border-gray-400  rounded-xl">
+            <div className="w-full  border border-gray-400  rounded-xl">
               <span className="flex justify-between items-center mb-3   p-5 ">
                 <h3 className="font-bold">Recent </h3>
 
                 <p
                   className="cursor-pointer"
-                  onClick={() => navigate("/-assignment")}
+                  onClick={() => navigate("/tickets-assignment")}
                 >
                   View All
                 </p>
