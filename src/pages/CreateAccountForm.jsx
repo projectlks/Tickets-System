@@ -1,18 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { v4 as uuidv4 } from "uuid"; // Import uuid
 
-
-export default function CreateAccountForm({ setIsShow }) {
+export default function CreateAccountForm({
+  setIsShow,
+  setData,
+  editMode,
+  existingData,
+}) {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
+    id: "",
     name: "",
     email: "",
     password: "",
-    role: "customer",
+    role: "",
   });
 
-  // Initialize customers state with initialAccounts
- 
+  // Populate form data if in edit mode
+  useEffect(() => {
+    if (editMode && existingData) {
+      setFormData(existingData);
+    }
+  }, [editMode, existingData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,14 +35,20 @@ export default function CreateAccountForm({ setIsShow }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Generate a new customer object with a unique ID (for simplicity, we use the next available ID)
-   
+    if (editMode) {
+      // Update the existing data
+      setData((prev) =>
+        prev.map((item) => (item.id === formData.id ? formData : item))
+      );
+    } else {
+      // Create a new account
+      const uniqueId = uuidv4();
+      setData((prev) => [...prev, { ...formData, id: uniqueId }]);
+    }
 
-    // Add the new customer to the customers array
-    
-
-    // Clear the form
+    // Reset form data
     setFormData({
+      id: "",
       name: "",
       email: "",
       password: "",
@@ -48,7 +64,7 @@ export default function CreateAccountForm({ setIsShow }) {
       <div className="flex justify-center w-full items-center min-h-screen fixed top-0 left-0">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md z-20">
           <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-            Create Account
+            {editMode ? "Edit Account" : "Create Account"}
           </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* name */}
@@ -99,7 +115,6 @@ export default function CreateAccountForm({ setIsShow }) {
               >
                 Password
               </label>
-
               <span className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -181,7 +196,7 @@ export default function CreateAccountForm({ setIsShow }) {
               type="submit"
               className="cursor-pointer w-full flex justify-center py-2 px-4 border border-transparent rounded-md outline-none shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Create Account
+              {editMode ? "Update Account" : "Create Account"}
             </button>
           </form>
         </div>
@@ -198,7 +213,13 @@ export default function CreateAccountForm({ setIsShow }) {
 }
 
 CreateAccountForm.propTypes = {
-  
   setIsShow: PropTypes.func.isRequired,
-setAccounts: PropTypes.func.isRequired
+  setData: PropTypes.func.isRequired,
+  editMode: PropTypes.bool,
+  existingData: PropTypes.object,
+};
+
+CreateAccountForm.defaultProps = {
+  editMode: false,
+  existingData: null,
 };
