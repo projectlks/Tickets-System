@@ -10,9 +10,9 @@ const TicketsAssignmentForm = ({ setIsOpen, ticketId, agentId }) => {
 
   return (
     <section className="w-full h-screen fixed top-0 left-0 flex justify-center items-center">
-      <span onClick={()=> setIsOpen(false)} className="w-full h-full bg-black opacity-50 absolute top-0 left-0 z-[1]"></span>
+      <span onClick={()=> setIsOpen(false)} className="w-full h-full bg-black opacity-50 absolute top-0 left-0 z-40"></span>
 
-      <div className="p-6 z-[2] relative bg-white shadow-md w-[450px] rounded-md backdrop-blur-md">
+      <div className="p-6 z-50 relative bg-white shadow-md w-[450px] rounded-md backdrop-blur-md">
         {/* Close button */}
         <button
           className="absolute right-3 top-3 cursor-pointer"

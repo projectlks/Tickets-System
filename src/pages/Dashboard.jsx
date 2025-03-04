@@ -1,5 +1,5 @@
 import { Bar } from "react-chartjs-2";
-import { useState, useEffect } from "react";
+
 import { useNavigate } from "react-router-dom";
 import {
   Chart as ChartJS,
@@ -11,7 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import HistoryItem from "../components/HistoryItem";
-import SideBar from "../components/SideBar";
+
 import StatusIcon from "../components/StatusIcon";
 
 ChartJS.register(
@@ -24,7 +24,6 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
-  const [isShow, setIsShow] = useState(true);
   const navigate = useNavigate();
   const data = {
     labels: ["All", "Pending", "Resolved", "Open", "Closed"],
@@ -51,28 +50,8 @@ const Dashboard = () => {
     plugins: { title: { display: true, text: "Ticket Status Overview" } },
   };
 
-  useEffect(() => {
-    const handleResize = () => setIsShow(window.innerWidth >= 1024);
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   return (
     <section className="border w-full min-h-screen flex">
-      <SideBar isShow={isShow} />
-      <button
-        onClick={() => setIsShow(!isShow)}
-        className="lg:hidden fixed top-6 right-6 bg-indigo-200 p-2 rounded-md"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-          />
-        </svg>
-      </button>
       <div className="flex-1 bg-gray-100 p-6">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
           <div className="rounded-xl h-[100px] border border-gray-400 flex flex-col justify-between p-6">
@@ -102,7 +81,10 @@ const Dashboard = () => {
         <div className="border rounded-xl">
           <div className="flex justify-between p-5">
             <h3 className="font-bold">Recent</h3>
-            <button className="hover:text-indigo-600 cursor-pointer font-semibold " onClick={() => navigate("/tickets-assignment")}>
+            <button
+              className="hover:text-indigo-600 cursor-pointer font-semibold "
+              onClick={() => navigate("/tickets-assignment")}
+            >
               View All
             </button>
           </div>

@@ -1,5 +1,4 @@
-import BackBtn from "../components/BackBtn";
-import PriorityIcon from "../components/PriorityIocn";
+import PriorityIcon from "../components/PriorityIcon";
 import StatusIcon from "../components/StatusIcon";
 import { useState } from "react";
 import CreateTicketForm from "./CreateTicketForm";
@@ -38,8 +37,7 @@ export default function CustomerTable() {
   return (
     <>
       <section className="p-16 ">
-        <BackBtn />
-
+ 
         <div className="flex justify-end p-3">
           <button
             // onClick={() => navigate("/create-tickets-form")}
@@ -110,7 +108,7 @@ export default function CustomerTable() {
                     <td className="py-4 px-5">
                       <div className="text-gray-950 items-center space-x-2 flex px-4 py-2 rounded-full text-sm font-semibold">
                         <StatusIcon status={ticket.status.toLowerCase()} />
-                        <p>{ticket.status}</p>
+                        <p className="whitespace-nowrap">{ticket.status}</p>
                       </div>
                     </td>
                     <td className="py-4 px-5 first-letter:uppercase">

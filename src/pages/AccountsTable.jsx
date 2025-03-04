@@ -1,5 +1,5 @@
 import CreateAccountForm from "./CreateAccountForm";
-import BackBtn from "../components/BackBtn";
+
 import { useState } from "react";
 
 export default function AccountsTable() {
@@ -42,7 +42,7 @@ export default function AccountsTable() {
 
   return (
     <>
-      <BackBtn />
+ 
       <div className="p-10">
         <div className="flex justify-between mb-3">
           <h2 className="text-4xl font-bold mb-6 text-gray-800">Accounts</h2>
@@ -80,7 +80,7 @@ export default function AccountsTable() {
               <th className="py-4 px-5 text-left">Name</th>
               <th className="py-4 px-5 text-left">Email</th>
               <th className="py-4 px-5 text-left">Role</th>
-              <th className="py-4 px-5 text-left">Phone</th>
+              {/* <th className="py-4 px-5 text-left">Phone</th> */}
               <th className="py-4 px-5 text-left">Actions</th>
             </tr>
           </thead>
@@ -91,9 +91,9 @@ export default function AccountsTable() {
                 <td className="py-4 px-5 text-[14px]">{account.name}</td>
                 <td className="py-4 px-5 text-[14px]">{account.email}</td>
                 <td className="py-4 px-5 text-[14px]">{account.role}</td>
-                <td className="py-4 px-5 text-[14px]">
+                {/* <td className="py-4 px-5 text-[14px]">
                   {account.phone ? account.phone : " - "}
-                </td>
+                </td> */}
                 <td className="py-4 px-5 text-[14px] flex items-center space-x-3">
                   {/* Edit Button */}
                   <button

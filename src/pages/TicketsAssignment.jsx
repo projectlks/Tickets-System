@@ -1,14 +1,13 @@
 import { useState } from "react";
-import BackBtn from "../components/BackBtn"; // Import BackBtn
+
 import SortBtn from "../components/SortBtn"; // Import SortBtn
 import SearchBox from "../components/SearchBox"; // Import SearchBox
 import FilterBtn from "../components/FilterBtn"; // Import FilterBtn
-
 import ExcelDownloadBtn from "../components/ExcelDownloadBtn";
 import TicketsTable from "../components/TicketsTable";
 
 export default function TicketsAssignment() {
-  const [tickets, setTickets] = useState([
+  const initialTickets = [
     {
       id: 1,
       title: "Fix login issue",
@@ -39,25 +38,29 @@ export default function TicketsAssignment() {
       createdBy: "Alice Johnson",
       startDate: "2023-10-03",
     },
-  ]);
+  ];
 
+  const [tickets, setTickets] = useState(initialTickets);
   const [filterBy, setFilterBy] = useState("");
   const [selectedTickets, setSelectedTickets] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(2);
 
+  const priorityOrder = { High: 1, Medium: 2, Low: 3 };
+
   const sortTickets = (criteria) => {
     const filteredTickets = tickets.filter((ticket) => ticket.id !== null); // Filter out deleted tickets
     const sortedTickets = [...filteredTickets].sort((a, b) => {
-      if (a[criteria] < b[criteria]) return -1;
-      if (a[criteria] > b[criteria]) return 1;
-      return 0;
+      if (criteria === "priority") {
+        return priorityOrder[a.priority] - priorityOrder[b.priority];
+      }
+      return a[criteria] < b[criteria] ? -1 : a[criteria] > b[criteria] ? 1 : 0;
     });
-    setTickets(sortedTickets); // Ensure setTickets updates tickets
+    setTickets(sortedTickets);
   };
 
   const filterTickets = (criteria) => {
-    setFilterBy(criteria); // Update filterBy state
+    setFilterBy(criteria);
   };
 
   const handleCheckboxChange = (ticketId) => {
@@ -69,31 +72,25 @@ export default function TicketsAssignment() {
   };
 
   return (
-    <>
-      <div className="mx-auto mt-5 p-8 bg-white ">
-        <BackBtn />
+    <div className="w-full overflow-hidden">
+      <div className="mx-auto overflow-hidden mt-5 w-full p-8">
+        {/* Search Box */}
         <div className="flex justify-end items-center mb-3">
           <SearchBox setTickets={setTickets} tickets={tickets} />
         </div>
 
+        {/* Header & Action Buttons */}
         <div className="flex justify-between items-center">
-          <h1 className="text-4xl font-bold mb-6 text-gray-800">
-            Ticket Management
-          </h1>
-
+          <h1 className="text-4xl font-bold mb-6 text-gray-800">Ticket Management</h1>
           <div className="flex space-x-4">
             <SortBtn sortTickets={sortTickets} /> {/* Sort Button */}
             <FilterBtn filterTickets={filterTickets} /> {/* Filter Button */}
-            {/* Search Box */}
-            <ExcelDownloadBtn
-              tickets={tickets}
-              selectedTickets={selectedTickets}
-            />
-            {/* Excel Download Button */}
+            <ExcelDownloadBtn tickets={tickets} selectedTickets={selectedTickets} /> {/* Excel Download */}
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Table Container */}
+        <div className="  overflow-auto ">
           <TicketsTable
             tickets={tickets}
             selectedTickets={selectedTickets}
@@ -107,9 +104,9 @@ export default function TicketsAssignment() {
         </div>
       </div>
 
-      {/* buttom */}
-
-      <div className="flex justify-center h-fit mb-32 items-center space-x-4 mt-4">
+      {/* Pagination Buttons */}
+      <div className="flex w-full justify-center h-fit mb-32 items-center space-x-4 mt-4">
+        {/* Previous Button */}
         <i
           onClick={() => {
             if (startIndex === 0) return;
@@ -134,9 +131,10 @@ export default function TicketsAssignment() {
           </svg>
         </i>
 
+        {/* Next Button */}
         <i
           onClick={() => {
-            if (endIndex > tickets.length) return;
+            if (endIndex >= tickets.length) return;
             setStartIndex(startIndex + 2);
             setEndIndex(endIndex + 2);
           }}
@@ -158,6 +156,6 @@ export default function TicketsAssignment() {
           </svg>
         </i>
       </div>
-    </>
+    </div>
   );
 }

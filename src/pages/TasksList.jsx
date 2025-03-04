@@ -1,7 +1,6 @@
 import { useState } from "react";
-import PriorityIcon from "../components/PriorityIocn";
+import PriorityIcon from "../components/PriorityIcon";
 import { useNavigate } from "react-router-dom";
-import BackBtn from "../components/BackBtn";
 
 export default function TasksList() {
   const [tasks, setTasks] = useState([
@@ -35,19 +34,19 @@ export default function TasksList() {
 
   return (
     <>
-      <BackBtn />
+ 
       <div className="p-14 bg-gray-100 min-h-screen">
         <h1 className="text-2xl font-bold mb-4 text-gray-800">Tasks List</h1>
         <div className="overflow-x-auto bg-white shadow-md rounded-lg">
           <table className="w-full border-collapse">
             <thead className="bg-gray-200 text-gray-700 text-sm uppercase">
               <tr>
-                <th className="py-4 px-5 text-left">Task ID</th>
+                <th className="py-4 px-5 text-left whitespace-nowrap">Task ID</th>
                 <th className="py-4 px-5 text-left">Title</th>
                 <th className="py-4 px-5 text-left">Description</th>
                 <th className="py-4 px-5 text-left">Status</th>
                 <th className="py-4 px-5 text-left">Priority</th>
-                <th className="py-4 px-5 text-left">Due Date</th>
+                <th className="py-4 px-5 text-left whitespace-nowrap">Due Date</th>
                 <th className="py-4 px-5 text-left">Action</th>
               </tr>
             </thead>
@@ -77,12 +76,12 @@ export default function TasksList() {
                       <p>{task.priority}</p>
                     </div>
                   </td>
-                  <td className="py-4 px-5 text-[14px]">{task.dueDate}</td>
+                  <td className="py-4 px-5 text-[14px] whitespace-nowrap">{task.dueDate}</td>
 
                   <td className="py-4 px-5 text-[14px]">
                     <button
                       onClick={() => {
-                        navigate("/tickets-detial");
+                        navigate("/tickets-detail");
                       }}
                       className="cursor-pointer bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 focus:outline-none transition duration-300"
                     >

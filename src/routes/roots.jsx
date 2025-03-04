@@ -1,64 +1,43 @@
 import { createBrowserRouter } from "react-router-dom";
+import Layout from "../layout/layout";
 import Login from "../pages/Login";
-import TicketsAssigment from "../pages/TicketsAssigment"; // Import the new component
-
+import Dashboard from "../pages/Dashboard";
+import TicketsAssignment from "../pages/TicketsAssignment";
 import TasksList from "../pages/TasksList";
-import TicketsDetail from "../pages/TicketsDetial";
+import TicketsDetail from "../pages/TicketsDetail";
 import AccountsTable from "../pages/AccountsTable";
 import CustomerTable from "../pages/CustomerTable";
-import Dashboard from "../pages/Dashboard";
+import SignUp from "../pages/SignUpForm";
 
 const router = createBrowserRouter([
+  // Public Routes
   {
     path: "/",
     element: <Login />,
-    index: true, // Set the default route
   },
-  {
-    path: "/admin-dashboard",
-    element: <Dashboard />,
-  
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/tickets-assignment",
-    element: <TicketsAssigment />, // Add the new route
-  },
-  // {
-  //   path: "/tickets-assignment-form",
-  //   element: <TicketsAssignmentForm />, // Add the new route
-  // },
-  // {
-  //   path: "/create-tickets-form",
-  //   element: <CreateTicketForm />, // Add the new route
-  // },
-  
-  {
-    path: "/tasks-list",
-    element: <TasksList />, // Add the new route
-  },
-  {
-    path: "/tickets-detial",
-    element: <TicketsDetail />, // Add the new route
-  },
-  {
-    path: "/accounts-table",
-    element: <AccountsTable />, // Add the new route
 
-  },
   {
-    path: "/customer-table",
-    element: <CustomerTable />, // Add the new route
+    path: "/signup",
+    element: <SignUp />,
+  },
 
+  // Admin Routes (Inside Layout)
+  {
+    path: "/",
+    element: <Layout />, // This wraps all admin pages with the sidebar
+    children: [
+      { path: "/dashboard", element: <Dashboard /> },
+      { path: "/tasks-list", element: <TasksList /> },
+      { path: "/tickets-assignment", element: <TicketsAssignment /> },
+      { path: "/tickets-detail", element: <TicketsDetail /> },
+      { path: "/accounts-table", element: <AccountsTable /> },
+      { path: "/customer-table", element: <CustomerTable /> },
+    ],
   },
   {
     path: "*",
-    element: <div>404 Not Found</div>, // Add the error route
+    element: <div>404 Not Found</div>,
   },
- 
 ]);
 
 export default router;

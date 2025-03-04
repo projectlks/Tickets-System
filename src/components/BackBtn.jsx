@@ -4,7 +4,7 @@ export default function BackBtn() {
   const navigate = useNavigate();
 
   return (
-    <div className=" fixed  top-4 left-4 " onClick={() => navigate(-1)} >
+    <div className=" absolute  top-4 left-4 " onClick={() => navigate(-1)} >
       <i >
         <svg
           xmlns="http://www.w3.org/2000/svg"

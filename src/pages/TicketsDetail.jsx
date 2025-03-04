@@ -23,8 +23,10 @@ export default function TicketsDetail() {
 
   return (
     <>
-      <BackBtn />
-      <div className="min-h-screen bg-gray-100 p-10 flex items-center justify-center">
+   
+      <div className="min-h-screen relative  p-10 flex items-center justify-center">
+
+      <BackBtn /> 
         <div className="bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-4xl p-10">
           <h1 className="text-4xl font-semibold text-indigo-700 text-center mb-8">
             Ticket Details
