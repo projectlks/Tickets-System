@@ -1,12 +1,13 @@
 import { createContext, useState } from "react";
 import PropTypes from "prop-types";
 
-export const UserRowContext = createContext();
+const UserRowContext = createContext();
 
 export function UserRowContextProvider({ children }) {
-  const [userRow, setUserRow] = useState("customer");
+  const [userRow, setUserRow] = useState("developer");
   // customer
   //developer
+  //admin
   return (
     <UserRowContext.Provider value={{ userRow, setUserRow }}>
       {children}
@@ -17,3 +18,5 @@ export function UserRowContextProvider({ children }) {
 UserRowContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
+export { UserRowContext };

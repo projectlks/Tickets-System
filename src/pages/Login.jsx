@@ -15,7 +15,7 @@ export default function Login() {
       return navigate("/customer-table");
     } else if (userRow === "developer") {
       return navigate("/tasks-list");
-    } else {
+    } else if (userRow === "admin") {
       return navigate("/admin-dashboard");
     }
   };

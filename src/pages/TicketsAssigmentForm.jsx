@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 const TicketsAssignmentForm = ({ setIsOpen, ticketId, agentId }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log("Form submitted");
-    setIsOpen(false);  // Close the form after submission
+
+
+    setIsOpen(false);  
   };
 
   return (
     <section className="w-full h-screen fixed top-0 left-0 flex justify-center items-center">
-      <span className="w-full h-full bg-black opacity-50 absolute top-0 left-0 z-[1]"></span>
+      <span onClick={()=> setIsOpen(false)} className="w-full h-full bg-black opacity-50 absolute top-0 left-0 z-[1]"></span>
 
       <div className="p-6 z-[2] relative bg-white shadow-md w-[450px] rounded-md backdrop-blur-md">
         {/* Close button */}

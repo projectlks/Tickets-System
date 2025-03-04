@@ -10,8 +10,8 @@ export default function CreateTicketForm({ setIsOpen, setData }) {
     priority: "Medium",
     status: "Open",
     category: "",
-    assignedTo: 2,
-    startDate: "2023-10-01",
+    assignedTo: "",
+    startDate: "",
     images: [],
   };
 
@@ -34,22 +34,26 @@ export default function CreateTicketForm({ setIsOpen, setData }) {
     setImagePreviews((prevPreviews) => [...prevPreviews, ...newImagePreviews]);
     setFormData((prevFormData) => ({
       ...prevFormData,
+
       images: [...prevFormData.images, ...files],
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+
     setFormData(initialState);
     setImagePreviews([]);
     setIsOpen(false);
 
-    setData((prev) => [formData, ...prev]);
+    setData((prev) => [
+      { ...formData, startDate: new Date().toISOString().split("T")[0] },
+      ...prev,
+    ]);
   };
 
   return (
-    <section className="fixed top-0 left-0  w-full h-screen flex justify-center items-center">
+    <section className="fixed top-0  py-10 left-0 overflow-auto  w-full h-screen min:h-screen flex justify-center items-center">
       <BackBtn />
       <div className="max-w-2xl   bg-white  border rounded-lg p-6 shadow-lg  z-20">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
@@ -214,7 +218,7 @@ export default function CreateTicketForm({ setIsOpen, setData }) {
 
       <span
         onClick={() => setIsOpen(false)}
-        className="w-full h-full bg-black opacity-50 absolute top-0 left-0  z-10 "
+        className="w-full h-full bg-black opacity-50 fixed top-0 left-0  z-10 "
       ></span>
     </section>
   );

@@ -24,14 +24,6 @@ export default function TicketsTable({
     );
   };
 
-  const employees = [
-    { id: 1, name: "John Doe" },
-    { id: 2, name: "Jane Smith" },
-    { id: 3, name: "Alice Johnson" },
-  ];
-
-
-
   return (
     <>
       <table className="w-full border border-gray-300 rounded-lg overflow-hidden shadow-md">
@@ -99,26 +91,15 @@ export default function TicketsTable({
                         <p>{ticket.priority}</p>
                       </div>
                     </td>
-                    {/* // className={`block w-2 h-2 rounded-full ${statusClass(ticket.status.toLowerCase())}`}  */}
 
                     <td className="py-4 px-5">
                       <div className="text-gray-950 items-center space-x-2 flex px-4 py-2 rounded-full text-sm font-semibold">
-                        {/* <span
-
-                      
-                          className={`block w-2 h-2 rounded-full ${statusClass}`}
-
-                        /> */}
-
                         <StatusIcon status={ticket.status.toLowerCase()} />
                         <p>{ticket.status}</p>
                       </div>
                     </td>
                     <td className="py-4 px-5 first-letter:uppercase">
-                      {ticket.assignedTo
-                        ? employees.find((emp) => emp.id === ticket.assignedTo)
-                            ?.name
-                        : "Unassigned"}
+                      {ticket.assignedTo ? ticket.assignedTo : "Unassigned"}
                     </td>
                     <td className="py-4 px-5 text-[14px]">
                       {ticket.startDate}
