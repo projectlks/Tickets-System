@@ -22,6 +22,8 @@ export default function TasksList() {
     },
   ]);
 
+  const [isSortedNewestFirst, setIsSortedNewestFirst] = useState(true);
+
   const handleStatusChange = (id, newStatus) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
@@ -30,29 +32,51 @@ export default function TasksList() {
     );
   };
 
+  const toggleSortByDate = () => {
+    setTasks((prevTasks) =>
+      [...prevTasks].sort(
+        (a, b) =>
+          isSortedNewestFirst
+            ? new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime() // Oldest first
+            : new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime() // Newest first
+      )
+    );
+    setIsSortedNewestFirst(!isSortedNewestFirst);
+  };
+
   const navigate = useNavigate();
 
   return (
     <>
- 
       <div className="p-14 bg-gray-100 min-h-screen">
-
-        <div>
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-left">
-            Total Tickets : {tasks.length}
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold text-gray-800">
+            Total Tickets: {tasks.length}
           </h1>
+          <button
+            onClick={toggleSortByDate}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+          >
+            {isSortedNewestFirst
+              ? "Sort by Oldest First"
+              : "Sort by Newest First"}
+          </button>
         </div>
-        {/* <h1 className="text-2xl font-bold mb-4 text-gray-800">Tasks List</h1> */}
+
         <div className="overflow-x-auto bg-white shadow-md rounded-lg">
           <table className="w-full border-collapse">
             <thead className="bg-gray-200 text-gray-700 text-sm uppercase">
               <tr>
-                <th className="py-4 px-5 text-left whitespace-nowrap">Task ID</th>
+                <th className="py-4 px-5 text-left whitespace-nowrap">
+                  Task ID
+                </th>
                 <th className="py-4 px-5 text-left">Title</th>
                 <th className="py-4 px-5 text-left">Description</th>
                 <th className="py-4 px-5 text-left">Status</th>
                 <th className="py-4 px-5 text-left">Priority</th>
-                <th className="py-4 px-5 text-left whitespace-nowrap">Due Date</th>
+                <th className="py-4 px-5 text-left whitespace-nowrap">
+                  Due Date
+                </th>
                 <th className="py-4 px-5 text-left">Action</th>
               </tr>
             </thead>
@@ -82,7 +106,9 @@ export default function TasksList() {
                       <p>{task.priority}</p>
                     </div>
                   </td>
-                  <td className="py-4 px-5 text-[14px] whitespace-nowrap">{task.dueDate}</td>
+                  <td className="py-4 px-5 text-[14px] whitespace-nowrap">
+                    {task.dueDate}
+                  </td>
 
                   <td className="py-4 px-5 text-[14px]">
                     <button

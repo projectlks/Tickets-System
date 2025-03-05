@@ -1,8 +1,7 @@
 import { useState } from "react";
-
-import SortBtn from "../components/SortBtn"; // Import SortBtn
-import SearchBox from "../components/SearchBox"; // Import SearchBox
-import FilterBtn from "../components/FilterBtn"; // Import FilterBtn
+import SearchBox from "../components/SearchBox";
+import SortBtn from "../components/SortBtn";
+import FilterBtn from "../components/FilterBtn";
 import ExcelDownloadBtn from "../components/ExcelDownloadBtn";
 import TicketsTable from "../components/TicketsTable";
 
@@ -24,7 +23,7 @@ export default function TicketsAssignment() {
       description: "Revamp the UI to align with the new design system.",
       priority: "Medium",
       status: "closed",
-      assignedTo: null,
+      assignedTo: "John",
       createdBy: "Jane Smith",
       startDate: "2023-10-02",
     },
@@ -44,19 +43,24 @@ export default function TicketsAssignment() {
   const [filterBy, setFilterBy] = useState("");
   const [selectedTickets, setSelectedTickets] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
-  const [endIndex, setEndIndex] = useState(2);
+  const pageSize = 2;
 
   const priorityOrder = { High: 1, Medium: 2, Low: 3 };
 
   const sortTickets = (criteria) => {
-    const filteredTickets = tickets.filter((ticket) => ticket.id !== null); // Filter out deleted tickets
-    const sortedTickets = [...filteredTickets].sort((a, b) => {
-      if (criteria === "priority") {
-        return priorityOrder[a.priority] - priorityOrder[b.priority];
-      }
-      return a[criteria] < b[criteria] ? -1 : a[criteria] > b[criteria] ? 1 : 0;
+    setTickets((prevTickets) => {
+      const sortedTickets = [...prevTickets].sort((a, b) => {
+        if (criteria === "priority") {
+          return priorityOrder[a.priority] - priorityOrder[b.priority];
+        }
+        return a[criteria] < b[criteria]
+          ? -1
+          : a[criteria] > b[criteria]
+          ? 1
+          : 0;
+      });
+      return sortedTickets;
     });
-    setTickets(sortedTickets);
   };
 
   const filterTickets = (criteria) => {
@@ -71,47 +75,55 @@ export default function TicketsAssignment() {
     );
   };
 
+  const filteredTickets = tickets.filter((ticket) => {
+    if (filterBy === "Unassigned") return ticket.assignedTo === null;
+    if (filterBy !== "") return ticket.priority === filterBy;
+    return true;
+  });
+
+  const paginatedData = filteredTickets.slice(
+    startIndex,
+    startIndex + pageSize
+  );
+
   return (
     <div className="w-full overflow-hidden">
       <div className="mx-auto overflow-hidden mt-5 w-full p-8">
-        {/* Search Box */}
         <div className="flex justify-end items-center mb-3">
           <SearchBox setTickets={setTickets} tickets={tickets} />
         </div>
 
-        {/* Header & Action Buttons */}
         <div className="flex justify-between items-center">
-          <h1 className="text-4xl font-bold mb-6 text-gray-800">Ticket Management</h1>
+          <h1 className="text-4xl font-bold mb-6 text-gray-800">
+            Ticket Management
+          </h1>
           <div className="flex space-x-4">
-            <SortBtn sortTickets={sortTickets} /> {/* Sort Button */}
-            <FilterBtn filterTickets={filterTickets} /> {/* Filter Button */}
-            <ExcelDownloadBtn tickets={tickets} selectedTickets={selectedTickets} /> {/* Excel Download */}
+            <SortBtn sortTickets={sortTickets} />
+            <FilterBtn filterTickets={filterTickets} />
+            <ExcelDownloadBtn
+              tickets={tickets}
+              selectedTickets={selectedTickets}
+            />
           </div>
         </div>
 
-        {/* Table Container */}
-        <div className="  overflow-auto ">
+        <div className="overflow-auto">
           <TicketsTable
             tickets={tickets}
             selectedTickets={selectedTickets}
             setSelectedTickets={setSelectedTickets}
             handleCheckboxChange={handleCheckboxChange}
             setTickets={setTickets}
-            filterBy={filterBy}
-            startIndex={startIndex}
-            endIndex={endIndex}
+            data={paginatedData}
           />
         </div>
       </div>
 
-      {/* Pagination Buttons */}
       <div className="flex w-full justify-center h-fit mb-32 items-center space-x-4 mt-4">
-        {/* Previous Button */}
         <i
           onClick={() => {
             if (startIndex === 0) return;
-            setStartIndex(startIndex - 2);
-            setEndIndex(endIndex - 2);
+            setStartIndex((prev) => Math.max(prev - pageSize, 0));
           }}
           className="cursor-pointer bg-gray-200 hover:bg-indigo-100 hover:text-indigo-600 aspect-square w-[40px] h-auto p-2 rounded-md"
         >
@@ -131,12 +143,10 @@ export default function TicketsAssignment() {
           </svg>
         </i>
 
-        {/* Next Button */}
         <i
           onClick={() => {
-            if (endIndex >= tickets.length) return;
-            setStartIndex(startIndex + 2);
-            setEndIndex(endIndex + 2);
+            if (startIndex + pageSize >= filteredTickets.length) return;
+            setStartIndex((prev) => prev + pageSize);
           }}
           className="cursor-pointer bg-gray-200 hover:bg-indigo-100 hover:text-indigo-600 aspect-square w-[40px] h-auto p-2 rounded-md"
         >

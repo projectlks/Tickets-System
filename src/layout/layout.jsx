@@ -31,23 +31,6 @@ const Layout = () => {
     }
   }, [showAlert]);
 
-
-  // useEffect(() => {
-  //   // Function to handle key press
-  //   const handleKeyPress = () => {
-  //     console.log(`Key pressed: ${event.key}`);
-  //     // You can perform any action based on the pressed key here
-  //   };
-
-  //   // Add event listener for keydown on the entire window
-  //   window.addEventListener('keydown', handleKeyPress);
-
-  //   // Cleanup the event listener when the component unmounts
-  //   return () => {
-  //     window.removeEventListener('keydown', handleKeyPress);
-  //   };
-  // }, []);
-
   return (
     <>
       {/* Alert Box */}
@@ -66,9 +49,16 @@ const Layout = () => {
       {/* Sidebar Toggle Button */}
       <button
         onClick={() => setIsShow(!isShow)}
-        className="lg:hidden fixed top-6 right-6 bg-indigo-200 p-2 rounded-md"
+        className=" cursor-pointer fixed top-6 right-6 bg-indigo-100 p-2 z-50 rounded-md"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -78,10 +68,18 @@ const Layout = () => {
       </button>
 
       <div className="w-full h-screen flex overflow-x-hidden">
-        <div className="w-[250px]">
+        <div
+          className={` ${
+            isShow ? "w-[250px] absolute lg:static" : "w-0"
+          } transition-all `}
+        >
           <SideBar isShow={isShow} />
         </div>
-        <div className="flex-1 w-[calc(100%-250px)]">
+        <div
+          className={` ${
+            isShow ? "w-[calc(100%-250px)]" : "w-full"
+          } flex-1 transition-all mt-16 `}
+        >
           <Outlet />
         </div>
       </div>
@@ -90,6 +88,3 @@ const Layout = () => {
 };
 
 export default Layout;
-
-
-

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-export default function CreateTicketForm({ setIsOpen, setData }) {
+export default function CreateTicketForm({ setIsOpen, setData, ticketCount }) {
   const initialState = {
     id: "",
     title: "",
@@ -67,16 +67,15 @@ export default function CreateTicketForm({ setIsOpen, setData }) {
     const currentDate = new Date();
     const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // MM
     const year = currentDate.getFullYear().toString().slice(-2); // YY
-    const ticketCount = 1; // Example ticket count, replace with your actual count logic
-    const ticketNum = ticketCount.toString().padStart(3, "0"); // XXX
-
-    // Create ticket registration number in MMYYXXX format
-    const ticketRegisterNumber = `${month}${year}${ticketNum}`;
-
-    console.log(ticketRegisterNumber); // Example output: 022001
+    const ticketNum = (ticketCount + 1).toString().padStart(3, "0"); // XXX
+    const ticketRegisterID = `${month}${year}${ticketNum}`;
 
     setData((prev) => [
-      { ...formData, startDate: new Date().toISOString().split("T")[0] },
+      {
+        ...formData,
+        startDate: new Date().toISOString().split("T")[0],
+        ticketRegisterID,
+      },
       ...prev,
     ]);
   };
@@ -238,4 +237,5 @@ export default function CreateTicketForm({ setIsOpen, setData }) {
 CreateTicketForm.propTypes = {
   setIsOpen: PropTypes.func.isRequired,
   setData: PropTypes.func.isRequired,
+  ticketCount : PropTypes.number.isRequired,
 };

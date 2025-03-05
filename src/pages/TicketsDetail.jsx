@@ -72,12 +72,6 @@ export default function TicketsDetail() {
               </div>
 
 
-              <div className="flex items-center space-x-3">
-                <div>
-                  <strong className="text-gray-600">Tags:</strong>
-                  <p className="text-gray-700">{ticket.tag}</p>
-                </div>
-              </div>
             </div>
 
             <div className="space-y-6">
@@ -87,13 +81,13 @@ export default function TicketsDetail() {
                   <p className="text-gray-700">{ticket.email}</p>
                 </div>
               </div>
-
+{/* 
               <div className="flex items-center space-x-3">
                 <div>
                   <strong className="text-gray-600">Requester Phone:</strong>
                   <p className="text-gray-700">{ticket.phone}</p>
                 </div>
-              </div>
+              </div> */}
 
               <div className="flex items-center space-x-3">
                 <div>
@@ -103,6 +97,12 @@ export default function TicketsDetail() {
               </div>
 
              
+              <div className="flex items-center space-x-3">
+                <div>
+                  <strong className="text-gray-600">Tags:</strong>
+                  <p className="text-gray-700">{ticket.tag}</p>
+                </div>
+              </div>
             </div>
           </div>
 

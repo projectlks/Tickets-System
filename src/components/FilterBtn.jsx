@@ -65,6 +65,19 @@ export default function FilterBtn({ filterTickets }) {
               </button>
             )}
           </MenuItem>
+
+          <MenuItem>
+            {({ active }) => (
+              <button
+                onClick={() => filterTickets("Unassigned")}
+                className={`${
+                  active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                } block px-4 py-2 text-sm w-full text-left`}
+              >
+             UnAssigned
+              </button>
+            )}
+          </MenuItem>
         </div>
       </MenuItems>
     </Menu>
