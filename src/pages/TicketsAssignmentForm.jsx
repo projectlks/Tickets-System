@@ -1,16 +1,38 @@
 import PropTypes from "prop-types";
 
-const TicketsAssignmentForm = ({ setIsOpen, ticketId, agentId }) => {
+const TicketsAssignmentForm = ({
+  setIsOpen,
+  tickets,
+  setTickets,
+  ticketId,
+}) => {
+  const ticket = tickets.find((t) => t.id === ticketId); // Find the ticket by ID
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Create an updated ticket object with the form values
+    const updatedTicket = {
+      ...ticket,
+      assignedTo: e.target.assigned_to.value,
+      status: e.target.status.value,
+      priority: e.target.priority.value,
+    };
 
-    setIsOpen(false);  
+    // Update the tickets array with the updated ticket
+    setTickets((prevTickets) =>
+      prevTickets.map((t) => (t.id === ticketId ? updatedTicket : t))
+    );
+
+    setIsOpen(false); // Close the form
   };
 
   return (
     <section className="w-full h-screen fixed top-0 left-0 flex justify-center items-center">
-      <span onClick={()=> setIsOpen(false)} className="w-full h-full bg-black opacity-50 absolute top-0 left-0 z-40"></span>
+      <span
+        onClick={() => setIsOpen(false)}
+        className="w-full h-full bg-black opacity-50 absolute top-0 left-0 z-40"
+      ></span>
 
       <div className="p-6 z-50 relative bg-white shadow-md w-[450px] rounded-md backdrop-blur-md">
         {/* Close button */}
@@ -46,26 +68,9 @@ const TicketsAssignmentForm = ({ setIsOpen, ticketId, agentId }) => {
               Ticket ID
             </label>
             <input
-              defaultValue={ticketId || "123456"}
+              defaultValue={ticket.id || "123456"}
               type="text"
               id="tickets_id"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              readOnly
-            />
-          </div>
-
-          {/* Agent ID */}
-          <div className="relative">
-            <label
-              htmlFor="agent_id"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Agent ID
-            </label>
-            <input
-              defaultValue={agentId || "123456"}
-              type="text"
-              id="agent_id"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               readOnly
             />
@@ -83,32 +88,16 @@ const TicketsAssignmentForm = ({ setIsOpen, ticketId, agentId }) => {
               id="assigned_to"
               name="assigned_to"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              defaultValue={ticket.assignedTo || ""}
             >
+              <option value="">Unassigned</option>
               <option value="employee_1">Employee 1</option>
               <option value="employee_2">Employee 2</option>
+              {/* Add more options if needed */}
             </select>
           </div>
 
-          {/* Priority Selection */}
-          <div className="relative">
-            <label
-              htmlFor="priority"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Priority
-            </label>
-            <select
-              id="priority"
-              name="priority"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
-          </div>
-
-          {/* Status Selection */}
+          {/* Status */}
           <div className="relative">
             <label
               htmlFor="status"
@@ -120,20 +109,39 @@ const TicketsAssignmentForm = ({ setIsOpen, ticketId, agentId }) => {
               id="status"
               name="status"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              defaultValue={ticket.status || "Open"}
             >
-              <option value="open">Open</option>
-              <option value="pending">Pending</option>
-              <option value="resolved">Resolved</option>
-              <option value="closed">Closed</option>
+              <option value="Open">Open</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Closed">Closed</option>
             </select>
           </div>
 
-          {/* Submit button */}
+          {/* Priority */}
+          <div className="relative">
+            <label
+              htmlFor="priority"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Priority
+            </label>
+            <select
+              id="priority"
+              name="priority"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              defaultValue={ticket.priority || "Medium"}
+            >
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+            </select>
+          </div>
+
           <button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="mt-4 py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
           >
-            Assign
+            Save Changes
           </button>
         </form>
       </div>
@@ -141,11 +149,11 @@ const TicketsAssignmentForm = ({ setIsOpen, ticketId, agentId }) => {
   );
 };
 
-// Prop validation using PropTypes
 TicketsAssignmentForm.propTypes = {
   setIsOpen: PropTypes.func.isRequired,
-  ticketId: PropTypes.string,
-  agentId: PropTypes.string,
+  tickets: PropTypes.array.isRequired,
+  setTickets: PropTypes.func.isRequired,
+  ticketId: PropTypes.string.isRequired,
 };
 
 export default TicketsAssignmentForm;

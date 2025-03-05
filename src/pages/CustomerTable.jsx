@@ -31,14 +31,16 @@ const employees = [
 ];
 
 export default function CustomerTable() {
-
   const [isOpen, setIsOpen] = useState(false);
-  const [data, setData] = useState(tickets)
+  const [data, setData] = useState(tickets);
   return (
     <>
       <section className="p-16 ">
- 
-        <div className="flex justify-end p-3">
+        <div className="flex justify-between items-center p-3">
+          <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+            Total Tickets : {data.length}
+          </h1>
+
           <button
             // onClick={() => navigate("/create-tickets-form")}
             onClick={() => setIsOpen(true)}
@@ -86,9 +88,9 @@ export default function CustomerTable() {
 
           {tickets.length > 0 ? (
             <tbody className="divide-y divide-gray-200">
-              {data.map((ticket) => {
+              {data.map((ticket, index) => {
                 return (
-                  <tr key={ticket.id} className="hover:bg-gray-100 transition">
+                  <tr key={index} className="hover:bg-gray-100 transition">
                     <td className="py-4 px-5 text-[14px]">{ticket.id}</td>
                     <td className="py-4 px-5 text-[14px]">{ticket.title}</td>
                     <td className="py-4 px-5 text-[14px]">

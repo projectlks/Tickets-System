@@ -1,70 +1,142 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import useRole from "../hooks/useRole";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+const navigate = useNavigate();
+const {setUserRole} = useRole();
+  const validateForm = () => {
+    let valid = true;
+    let newErrors = { ...errors };
+
+    // Clear previous errors
+    newErrors.name = "";
+    newErrors.email = "";
+    newErrors.password = "";
+    newErrors.confirmPassword = "";
+
+    // Name validation
+    if (!formData.name) {
+      newErrors.name = "Name is required";
+      valid = false;
+    }
+
+    // Email validation
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is invalid";
+      valid = false;
+    }
+
+    // Password validation
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+      valid = false;
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+      valid = false;
+    }
+
+    // Confirm password validation
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = "Please confirm your password";
+      valid = false;
+    } else if (formData.confirmPassword !== formData.password) {
+      newErrors.confirmPassword = "Passwords do not match";
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle sign-up logic here
+    if (validateForm()) {
+      // Handle sign-up logic here
+      console.log("Form is valid, proceed with sign-up.");
+      setUserRole("Customer")
+      navigate("/customer-table");
+    }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-          Sign Up
-        </h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Sign Up</h2>
         <form className="space-y-6" onSubmit={handleSubmit}>
           {/* Name Field */}
           <div className="relative">
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
               Name
             </label>
             <input
               type="text"
               id="name"
+              name="name"
               placeholder="Enter your name"
+              value={formData.name}
+              onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              required
             />
+            {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
           </div>
 
           {/* Email Field */}
           <div className="relative">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email
             </label>
             <input
               type="email"
               id="email"
+              name="email"
               placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              required
             />
+            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
           </div>
 
           {/* Password Field */}
           <div className="relative">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password
             </label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
+                name="password"
                 placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                required
               />
               <i
                 className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
@@ -108,6 +180,7 @@ const SignUp = () => {
                 )}
               </i>
             </div>
+            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
           </div>
 
           {/* Confirm Password Field */}
@@ -122,9 +195,11 @@ const SignUp = () => {
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 id="confirm-password"
+                name="confirmPassword"
                 placeholder="Re-enter your password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                required
               />
               <i
                 className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
@@ -168,16 +243,27 @@ const SignUp = () => {
                 )}
               </i>
             </div>
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>
+            )}
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md outline-none shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full cursor-pointer bg-blue-500 text-white p-2 rounded-md"
           >
             Sign Up
           </button>
         </form>
+
+        {/* Redirect to Sign-In */}
+        <p className="mt-4 text-sm text-center">
+          Already have an account?{" "}
+          <Link to="/" className="text-blue-500 hover:underline">
+            Sign In
+          </Link>
+        </p>
       </div>
     </div>
   );

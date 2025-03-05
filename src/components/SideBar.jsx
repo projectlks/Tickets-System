@@ -25,7 +25,7 @@ const menuItems = [
     ),
   },
   {
-    role: "Administrator",
+    role: "SuperVisor",
     path: "/tickets-assignment",
     label: "Tickets",
     icon: (
@@ -45,27 +45,27 @@ const menuItems = [
       </svg>
     ),
   },
-  {
-    role: "Customer",
-    path: "/customer-table",
-    label: "Create Tickets",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="currentColor"
-        className="size-6"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-        />
-      </svg>
-    ),
-  },
+  // {
+  //   role: "Customer",
+  //   path: "/customer-table",
+  //   label: "Create Tickets",
+  //   icon: (
+  //     <svg
+  //       xmlns="http://www.w3.org/2000/svg"
+  //       fill="none"
+  //       viewBox="0 0 24 24"
+  //       strokeWidth={1.5}
+  //       stroke="currentColor"
+  //       className="size-6"
+  //     >
+  //       <path
+  //         strokeLinecap="round"
+  //         strokeLinejoin="round"
+  //         d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+  //       />
+  //     </svg>
+  //   ),
+  // },
   {
     role: "Agent",
     path: "/tasks-list",
@@ -90,7 +90,7 @@ const menuItems = [
   {
     role: "SuperVisor",
     path: "/accounts-table",
-    label: "All account",
+    label: "All accounts",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -127,6 +127,37 @@ export default function SideBar({ isShow }) {
         } flex transition-all fixed top-0 flex-col justify-between h-screen p-6 bg-white shadow-md`}
       >
         <div>
+          {/* Agent Dashboard */}
+
+          {userRole === "Agent" && (
+            <span
+              onClick={() => handleNavigation("agent-dashboard")}
+              className={`flex gap-2.5 items-center cursor-pointer p-4 hover:bg-[#F9FAFB] h-[40px] mb-2 rounded-md ${
+                location.pathname === "/agent-dashboard"
+                  ? "bg-[#F9FAFB] text-indigo-600"
+                  : "bg-white"
+              }`}
+            >
+              <i className="mr-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                  />
+                </svg>
+              </i>
+              <p className="text-[14px] font-semibold">Dashboard</p>
+            </span>
+          )}
+          {/* All btn */}
           {menuItems.map(
             (item) =>
               (userRole === "Administrator" || item.role === userRole) && (
@@ -143,6 +174,36 @@ export default function SideBar({ isShow }) {
                   <p className="text-[14px] font-semibold">{item.label}</p>
                 </span>
               )
+          )}
+
+          {/* create tickets for customer */}
+          {userRole === "Customer" && (
+            <span
+              onClick={() => handleNavigation("/customer-table")}
+              className={`flex gap-2.5 items-center cursor-pointer p-4 hover:bg-[#F9FAFB] h-[40px] mb-2 rounded-md ${
+                location.pathname === "/customer-table"
+                  ? "bg-[#F9FAFB] text-indigo-600"
+                  : "bg-white"
+              }`}
+            >
+              <i className="mr-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+              </i>
+              <p className="text-[14px] font-semibold">Create Tickets</p>
+            </span>
           )}
         </div>
         <span

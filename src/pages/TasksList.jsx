@@ -36,7 +36,13 @@ export default function TasksList() {
     <>
  
       <div className="p-14 bg-gray-100 min-h-screen">
-        <h1 className="text-2xl font-bold mb-4 text-gray-800">Tasks List</h1>
+
+        <div>
+        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-left">
+            Total Tickets : {tasks.length}
+          </h1>
+        </div>
+        {/* <h1 className="text-2xl font-bold mb-4 text-gray-800">Tasks List</h1> */}
         <div className="overflow-x-auto bg-white shadow-md rounded-lg">
           <table className="w-full border-collapse">
             <thead className="bg-gray-200 text-gray-700 text-sm uppercase">

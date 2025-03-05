@@ -4,6 +4,7 @@ import TicketsAssignmentForm from "../pages/TicketsAssignmentForm";
 
 import PriorityIcon from "./PriorityIcon";
 import StatusIcon from "./StatusIcon";
+import TicketsDeleteConfirm from "./TicketsDeleteConfirm";
 
 export default function TicketsTable({
   setSelectedTickets,
@@ -14,7 +15,8 @@ export default function TicketsTable({
   startIndex,
   endIndex,
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(null);
+  const [isDelete, setIsDelete] = useState(null); // Updated state to hold ticket ID
 
   const handleCheckboxChange = (id) => {
     setSelectedTickets((prevSelected) =>
@@ -24,10 +26,17 @@ export default function TicketsTable({
     );
   };
 
+  const handleDelete = (ticketId) => {
+    // Filter out the ticket by ID
+    setTickets((prevTickets) =>
+      prevTickets.filter((ticket) => ticket.id !== ticketId)
+    );
+    setIsDelete(null); // Reset the delete confirmation
+  };
 
   return (
     <>
-      <table className=" border  w-full border-gray-300 rounded-lg overflow-hidden shadow-md">
+      <table className="border w-full border-gray-300 rounded-lg overflow-hidden shadow-md">
         <thead className="bg-gray-200 text-gray-700 text-sm uppercase">
           <tr>
             <th>
@@ -69,7 +78,7 @@ export default function TicketsTable({
               .slice(startIndex, endIndex)
               .map((ticket) => {
                 return (
-                  <tr key={ticket.id} className="hover:bg-gray-100 transition ">
+                  <tr key={ticket.id} className="hover:bg-gray-100 transition">
                     <td className="py-4 px-5 text-[14px]">
                       <input
                         type="checkbox"
@@ -92,11 +101,10 @@ export default function TicketsTable({
                         <p>{ticket.priority}</p>
                       </div>
                     </td>
-
                     <td className="py-4 px-5">
                       <div className="text-gray-950 items-center space-x-2 flex px-4 py-2 rounded-full text-sm font-semibold">
                         <StatusIcon status={ticket.status.toLowerCase()} />
-                        <p>{ticket.status}</p>
+                        <p className="whitespace-nowrap">{ticket.status}</p>
                       </div>
                     </td>
                     <td className="py-4 px-5 first-letter:uppercase">
@@ -106,10 +114,10 @@ export default function TicketsTable({
                       {ticket.startDate}
                     </td>
                     <td className=" ">
-                      <div className=" text-[14px]   flex py-4 px-5 h-full items-center space-x-3">
+                      <div className="text-[14px] flex py-4 px-5 h-full items-center space-x-3">
                         {/* Edit Button */}
                         <button
-                          onClick={() => setIsOpen(true)}
+                          onClick={() => setIsOpen(ticket)}
                           className="cursor-pointer flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700 transition"
                         >
                           <svg
@@ -130,11 +138,7 @@ export default function TicketsTable({
 
                         {/* Delete Button */}
                         <button
-                          onClick={() =>
-                            setTickets(
-                              tickets.filter((t) => t.id !== ticket.id)
-                            )
-                          }
+                          onClick={() => setIsDelete(ticket.id)}
                           className="cursor-pointer flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium bg-red-100 text-red-600 hover:bg-red-200 transition"
                         >
                           <svg
@@ -163,7 +167,7 @@ export default function TicketsTable({
             <tr>
               <td
                 colSpan="9"
-                className="py-4 px-5 text-center text-gray-500  h-40"
+                className="py-4 px-5 text-center text-gray-500 h-40"
               >
                 No tickets found
               </td>
@@ -171,8 +175,24 @@ export default function TicketsTable({
           </tbody>
         )}
       </table>
-      
-      {isOpen ? <TicketsAssignmentForm setIsOpen={setIsOpen} /> : null} 
+
+      {isDelete && (
+        <TicketsDeleteConfirm
+          ticketId={isDelete}
+          setIsDelete={setIsDelete}
+          handleDelete={handleDelete}
+        />
+      )}
+
+
+      {isOpen && (
+        <TicketsAssignmentForm
+          setIsOpen={setIsOpen}
+          tickets={tickets} // Pass the tickets array
+          setTickets={setTickets} // Pass the setTickets function
+          ticketId={isOpen.id} // Pass the ticketId (you can use `isOpen` to get the selected ticket)
+        />
+      )}
     </>
   );
 }

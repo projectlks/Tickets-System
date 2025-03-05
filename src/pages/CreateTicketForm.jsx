@@ -1,5 +1,4 @@
 import { useState } from "react";
-import BackBtn from "../components/BackBtn";
 import PropTypes from "prop-types";
 
 export default function CreateTicketForm({ setIsOpen, setData }) {
@@ -7,7 +6,7 @@ export default function CreateTicketForm({ setIsOpen, setData }) {
     id: "",
     title: "",
     description: "",
-    priority: "Medium",
+    priority: "Low",
     status: "Open",
     category: "",
     assignedTo: "",
@@ -25,8 +24,28 @@ export default function CreateTicketForm({ setIsOpen, setData }) {
   const handleImageUpload = (e) => {
     if (!e.target.files) return;
 
+    const maxSize = 1 * 1024 * 1024; // 1MB limit
+    const maxImages = 3; // Maximum 3 images
+
     const files = Array.from(e.target.files);
-    const newImagePreviews = files.map((file) => ({
+
+    // Prevent exceeding max image count
+    if (formData.images.length >= maxImages) {
+      alert(`You can upload up to ${maxImages} images only.`);
+      return;
+    }
+
+    // Filter files by size
+    const validFiles = files.filter((file) => {
+      if (file.size > maxSize) {
+        alert(`File "${file.name}" exceeds the 1MB limit.`);
+        return false;
+      }
+      return true;
+    });
+
+    // Convert valid images to previews
+    const newImagePreviews = validFiles.map((file) => ({
       id: Date.now() + Math.random(),
       img: URL.createObjectURL(file),
     }));
@@ -34,8 +53,7 @@ export default function CreateTicketForm({ setIsOpen, setData }) {
     setImagePreviews((prevPreviews) => [...prevPreviews, ...newImagePreviews]);
     setFormData((prevFormData) => ({
       ...prevFormData,
-
-      images: [...prevFormData.images, ...files],
+      images: [...prevFormData.images, ...validFiles],
     }));
   };
 
@@ -46,6 +64,17 @@ export default function CreateTicketForm({ setIsOpen, setData }) {
     setImagePreviews([]);
     setIsOpen(false);
 
+    const currentDate = new Date();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // MM
+    const year = currentDate.getFullYear().toString().slice(-2); // YY
+    const ticketCount = 1; // Example ticket count, replace with your actual count logic
+    const ticketNum = ticketCount.toString().padStart(3, "0"); // XXX
+
+    // Create ticket registration number in MMYYXXX format
+    const ticketRegisterNumber = `${month}${year}${ticketNum}`;
+
+    console.log(ticketRegisterNumber); // Example output: 022001
+
     setData((prev) => [
       { ...formData, startDate: new Date().toISOString().split("T")[0] },
       ...prev,
@@ -53,15 +82,14 @@ export default function CreateTicketForm({ setIsOpen, setData }) {
   };
 
   return (
-    <section className="fixed top-0  py-10 left-0 overflow-auto  w-full h-screen min:h-screen flex justify-center items-center">
-      <BackBtn />
-      <div className="max-w-2xl   bg-white  border rounded-lg p-6 shadow-lg  z-20">
+    <section className="fixed top-0 py-10 left-0 overflow-auto w-full h-screen flex justify-center items-center">
+      <div className="max-w-2xl bg-white border rounded-lg p-6 shadow-lg z-20">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Create Ticket
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Status & Title */}
+          {/* Title & Category */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="relative">
               <label
@@ -82,28 +110,6 @@ export default function CreateTicketForm({ setIsOpen, setData }) {
               />
             </div>
 
-            {/* priority */}
-            {/* <div className="relative">
-              <label
-                htmlFor="priority"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Priority
-              </label>
-              <select
-                id="priority"
-                name="priority"
-                value={formData.priority}
-                onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              >
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-              </select>
-            </div> */}
-
-            {/* Category */}
             <div className="relative">
               <label
                 htmlFor="category"
@@ -150,7 +156,7 @@ export default function CreateTicketForm({ setIsOpen, setData }) {
               htmlFor="images"
               className="block text-sm font-medium text-gray-700"
             >
-              Upload Images
+              Upload Images (Max 3, each ≤ 1MB)
             </label>
             <input
               type="file"
@@ -173,6 +179,12 @@ export default function CreateTicketForm({ setIsOpen, setData }) {
                     setImagePreviews((prevPreviews) =>
                       prevPreviews.filter((img) => img.id !== preview.id)
                     );
+                    setFormData((prev) => ({
+                      ...prev,
+                      images: prev.images.filter(
+                        (img) => img.name !== preview.img
+                      ),
+                    }));
                   }}
                 >
                   <img
@@ -196,7 +208,6 @@ export default function CreateTicketForm({ setIsOpen, setData }) {
                         d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                       />
                     </svg>
-
                     <span className="absolute w-full h-full bg-black opacity-50 rounded-md"></span>
                   </i>
                 </div>
@@ -218,7 +229,7 @@ export default function CreateTicketForm({ setIsOpen, setData }) {
 
       <span
         onClick={() => setIsOpen(false)}
-        className="w-full h-full bg-black opacity-50 fixed top-0 left-0  z-10 "
+        className="w-full h-full bg-black opacity-50 fixed top-0 left-0 z-10"
       ></span>
     </section>
   );

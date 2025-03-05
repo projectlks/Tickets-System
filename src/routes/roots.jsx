@@ -8,6 +8,7 @@ import TicketsDetail from "../pages/TicketsDetail";
 import AccountsTable from "../pages/AccountsTable";
 import CustomerTable from "../pages/CustomerTable";
 import SignUp from "../pages/SignUpForm";
+import AgentDashBoard from "../components/AgentDashBoard";
 
 const router = createBrowserRouter([
   // Public Routes
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />, // This wraps all admin pages with the sidebar
     children: [
+      { path: "/agent-dashboard", element: <AgentDashBoard /> },
       { path: "/dashboard", element: <Dashboard /> },
       { path: "/tasks-list", element: <TasksList /> },
       { path: "/tickets-assignment", element: <TicketsAssignment /> },
