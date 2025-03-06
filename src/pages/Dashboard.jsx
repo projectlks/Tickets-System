@@ -14,7 +14,6 @@ import HistoryItem from "../components/HistoryItem";
 
 import StatusIcon from "../components/StatusIcon";
 
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -52,11 +51,10 @@ const Dashboard = () => {
   };
 
   return (
-    <section className="border w-full min-h-screen flex">
+    <section className=" w-full min-h-screen flex">
       <div className="flex-1 bg-gray-100 p-6">
-
         {/* for Admin */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        <div className="grid  grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
           <div className="rounded-xl h-[100px] border border-gray-400 flex flex-col justify-between p-6">
             <h3 className="text-md font-semibold">All</h3>
 
@@ -79,10 +77,13 @@ const Dashboard = () => {
           ))}
         </div>
 
-        <div className="relative w-[90%] mx-auto mb-10">
-          <Bar data={data} options={options} />
+        <div className="bg-white my-5 p-10">
+          <span className="block relative w-[90%]  mx-auto mb-10">
+            <Bar data={data} options={options} />
+          </span>
         </div>
-        <div className="border rounded-xl">
+
+        <div className="border  rounded-xl">
           <div className="flex justify-between p-5">
             <h3 className="font-bold">Recent</h3>
             <button

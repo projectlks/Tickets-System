@@ -87,8 +87,8 @@ export default function TicketsAssignment() {
   );
 
   return (
-    <div className="w-full overflow-hidden">
-      <div className="mx-auto overflow-hidden mt-5 w-full p-8">
+    <div className="w-full ">
+      <div className="mx-auto  mt-10 w-full p-8">
         <div className="flex justify-end items-center mb-3">
           <SearchBox setTickets={setTickets} tickets={tickets} />
         </div>
@@ -99,7 +99,7 @@ export default function TicketsAssignment() {
           </h1>
           <div className="flex space-x-4">
             <SortBtn sortTickets={sortTickets} />
-            <FilterBtn filterTickets={filterTickets} />
+            <FilterBtn filterTickets={filterTickets} filterBy={filterBy} />
             <ExcelDownloadBtn
               tickets={tickets}
               selectedTickets={selectedTickets}

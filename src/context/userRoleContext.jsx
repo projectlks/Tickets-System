@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const UserRoleContext = createContext();
 
 export function UserRoleContextProvider({ children }) {
-  const [userRole, setUserRole] = useState("SuperVisor");
+  const [userRole, setUserRole] = useState("Administrator");
   // Administrator
   // SuperVisor
   // Agent

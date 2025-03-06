@@ -2,12 +2,12 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import PropTypes from "prop-types";
 
-export default function FilterBtn({ filterTickets }) {
+export default function FilterBtn({ filterTickets, filterBy }) {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 focus:ring-indigo-600 ring-inset hover:bg-gray-50">
-          Filter Tickets
+        <span>Filter: <span className="font-bold">{filterBy || "All"}</span></span>
           <ChevronDownIcon
             aria-hidden="true"
             className="-mr-1 size-5 text-gray-400"
@@ -87,4 +87,5 @@ export default function FilterBtn({ filterTickets }) {
 // Prop validation using PropTypes
 FilterBtn.propTypes = {
   filterTickets: PropTypes.func.isRequired,
+  filterBy : PropTypes.string.isRequired
 };

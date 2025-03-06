@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import useRole from "../hooks/useRole";
+import logo from "../assets/logo.png";
 
 const menuItems = [
   {
@@ -45,27 +46,27 @@ const menuItems = [
       </svg>
     ),
   },
-  // {
-  //   role: "Customer",
-  //   path: "/customer-table",
-  //   label: "Create Tickets",
-  //   icon: (
-  //     <svg
-  //       xmlns="http://www.w3.org/2000/svg"
-  //       fill="none"
-  //       viewBox="0 0 24 24"
-  //       strokeWidth={1.5}
-  //       stroke="currentColor"
-  //       className="size-6"
-  //     >
-  //       <path
-  //         strokeLinecap="round"
-  //         strokeLinejoin="round"
-  //         d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-  //       />
-  //     </svg>
-  //   ),
-  // },
+  {
+    role: "Customer",
+    path: "/customer-table",
+    label: "Create Tickets",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="size-6"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+        />
+      </svg>
+    ),
+  },
   {
     role: "Agent",
     path: "/tasks-list",
@@ -127,6 +128,15 @@ export default function SideBar({ isShow }) {
         } flex transition-all fixed top-0 flex-col justify-between h-screen p-6 bg-white shadow-md`}
       >
         <div>
+          <div className="w-full flex items-center space-y-3 flex-col mb-[20px] ">
+            <span className="w-[80px] aspect-square  ">
+              <img src={logo} alt="" />
+            </span>
+            <span className="w-full border-b font-bold text-center pb-2 border-gray-500 ">
+              Ticketing System
+            </span>
+          </div>
+
           {/* Agent Dashboard */}
 
           {userRole === "Agent" && (
@@ -177,7 +187,7 @@ export default function SideBar({ isShow }) {
           )}
 
           {/* create tickets for customer */}
-          {userRole === "Customer" && (
+          {/* {userRole === "Customer" && (
             <span
               onClick={() => handleNavigation("/customer-table")}
               className={`flex gap-2.5 items-center cursor-pointer p-4 hover:bg-[#F9FAFB] h-[40px] mb-2 rounded-md ${
@@ -204,28 +214,31 @@ export default function SideBar({ isShow }) {
               </i>
               <p className="text-[14px] font-semibold">Create Tickets</p>
             </span>
-          )}
+          )} */}
         </div>
-        <span
-          onClick={() => navigate("/")}
-          className="flex items-center justify-center gap-2 px-5 py-2 rounded-md cursor-pointer bg-red-500 text-white font-bold text-[16px] transition-all duration-300 hover:bg-red-600 active:scale-95"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
+
+        <div>
+          <span
+            onClick={() => navigate("/")}
+            className="flex items-center justify-center gap-2 px-5 py-2 rounded-md cursor-pointer bg-red-500 text-white font-bold text-[16px] transition-all duration-300 hover:bg-red-600 active:scale-95"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 9V5.25a2.25 2.25 0 0 0-2.25-2.25h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M9 12h12m0 0-3-3m3 3-3 3"
-            />
-          </svg>
-          Logout
-        </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 9V5.25a2.25 2.25 0 0 0-2.25-2.25h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M9 12h12m0 0-3-3m3 3-3 3"
+              />
+            </svg>
+            Logout
+          </span>
+        </div>
       </div>
     </section>
   );

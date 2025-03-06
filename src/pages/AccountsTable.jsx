@@ -1,55 +1,42 @@
 import CreateAccountForm from "./CreateAccountForm";
-
 import { useState } from "react";
 import useRole from "../hooks/useRole";
 
 export default function AccountsTable() {
   const [isShow, setIsShow] = useState(false);
-  const [editAccount, setEditAccount] = useState(null); // Track which account is being edited
+  const [editAccount, setEditAccount] = useState(null);
+  const [deleteId, setDeleteID] = useState(null);
+
   const accounts = [
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@example.com",
-      role: "Admin",
-      phone: "123-456-7890",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "jane@example.com",
-      role: "Developer",
-      phone: "234-567-8901",
-    },
+    { id: 1, name: "John Doe", email: "john@example.com", role: "Admin" },
+    { id: 2, name: "Jane Smith", email: "jane@example.com", role: "Developer" },
     {
       id: 3,
       name: "Alice Brown",
       email: "alice@example.com",
       role: "Customer",
-      phone: "345-678-9012",
     },
   ];
 
   const [data, setData] = useState(accounts);
+  const { userRole } = useRole();
 
   const handleDelete = (id) => {
     setData(data.filter((account) => account.id !== id));
   };
 
   const handleEdit = (account) => {
-    setEditAccount(account); // Set the account to be edited
-    setIsShow(true); // Open the form for editing
+    setEditAccount(account);
+    setIsShow(true);
   };
-
-  const {userRole} = useRole();
-
 
   return (
     <>
-      <div className="p-10">
+      <div className="p-16">
         <div className="flex justify-between mb-3">
-          <h2 className="text-4xl font-bold mb-6 text-gray-800">Total Accounts : {data.length} </h2>
-
+          <h2 className="text-4xl font-bold mb-6 text-gray-800">
+            Total Accounts : {data.length}
+          </h2>
           <button
             onClick={() => {
               setEditAccount(null); // Reset editAccount for adding a new account
@@ -83,7 +70,6 @@ export default function AccountsTable() {
               <th className="py-4 px-5 text-left">Name</th>
               <th className="py-4 px-5 text-left">Email</th>
               <th className="py-4 px-5 text-left">Role</th>
-              {/* <th className="py-4 px-5 text-left">Phone</th> */}
               <th className="py-4 px-5 text-left">Actions</th>
             </tr>
           </thead>
@@ -94,11 +80,7 @@ export default function AccountsTable() {
                 <td className="py-4 px-5 text-[14px]">{account.name}</td>
                 <td className="py-4 px-5 text-[14px]">{account.email}</td>
                 <td className="py-4 px-5 text-[14px]">{account.role}</td>
-                {/* <td className="py-4 px-5 text-[14px]">
-                  {account.phone ? account.phone : " - "}
-                </td> */}
                 <td className="py-4 px-5 text-[14px] flex items-center space-x-3">
-                  {/* Edit Button */}
                   <button
                     onClick={() => handleEdit(account)}
                     className="cursor-pointer flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700 transition"
@@ -119,11 +101,9 @@ export default function AccountsTable() {
                     </svg>
                   </button>
 
-                  {/* Delete Button */}
-
                   {userRole === "Administrator" && (
                     <button
-                      onClick={() => handleDelete(account.id)}
+                      onClick={() => setDeleteID(account.id)}
                       className="cursor-pointer flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium bg-red-100 text-red-600 hover:bg-red-200 transition"
                     >
                       <svg
@@ -153,9 +133,44 @@ export default function AccountsTable() {
         <CreateAccountForm
           setIsShow={setIsShow}
           setData={setData}
-          editMode={editAccount ? true : false} // Check if we're in edit mode
-          existingData={editAccount} // Pass the account being edited
+          editMode={!!editAccount}
+          existingData={editAccount}
         />
+      )}
+
+      {deleteId && (
+        <section className="w-full h-screen fixed top-0 left-0 flex justify-center items-center z-50">
+          <span
+            onClick={() => setDeleteID(null)}
+            className="w-full h-full bg-black opacity-40 absolute top-0 left-0"
+          ></span>
+          <div className="bg-white p-8 rounded-2xl shadow-lg z-50 w-[90%] sm:w-[450px] max-w-md">
+            <h2 className="text-2xl font-bold text-gray-900">
+              Confirm Deletion
+            </h2>
+            <p className="text-gray-600 mt-3 text-lg">
+              Are you sure you want to delete this account? This action cannot
+              be undone.
+            </p>
+            <div className="mt-6 flex justify-end gap-4">
+              <button
+                onClick={() => setDeleteID(null)}
+                className="cursor-pointer bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium py-2 px-6 rounded-lg transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  handleDelete(deleteId);
+                  setDeleteID(null);
+                }}
+                className="cursor-pointer bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg transition"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </section>
       )}
     </>
   );

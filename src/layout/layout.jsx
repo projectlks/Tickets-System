@@ -49,7 +49,7 @@ const Layout = () => {
       {/* Sidebar Toggle Button */}
       <button
         onClick={() => setIsShow(!isShow)}
-        className=" cursor-pointer fixed top-6 right-6 bg-indigo-100 p-2 z-50 rounded-md"
+        className=" cursor-pointer fixed top-6 right-6 bg-indigo-100 p-2  rounded-md"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +78,7 @@ const Layout = () => {
         <div
           className={` ${
             isShow ? "w-[calc(100%-250px)]" : "w-full"
-          } flex-1 transition-all mt-16 `}
+          } flex-1 transition-all  `}
         >
           <Outlet />
         </div>

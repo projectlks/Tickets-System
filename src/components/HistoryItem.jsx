@@ -5,7 +5,7 @@ export default function HistoryItem() {
 
   return (
     <div
-      onClick={() => navigate("/tickets-detial")}
+      onClick={() => navigate("/tickets-detail")}
       className="w-[90%] h-[80px] mb-3 transition-all  hover:shadow border-gray-400 py-3 px-2 hover:scale-105 mx-auto rounded flex hover:border-red-500 border cursor-pointer items-center "
     >
       <span className="w-1.5 h-full rounded-2xl bg-red-700 block mr-3"></span>
